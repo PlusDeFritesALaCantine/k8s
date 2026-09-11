@@ -1,0 +1,33 @@
+githubConfigUrl: "https://github.com/PlusDeFritesALaCantine"
+githubConfigSecret: "github-secret"
+runnerScaleSetName: "shared-runners"
+runnerNamespace: "arc-runners"
+maxRunners: 2
+minRunners: 0
+template:
+  metadata:
+    labels:
+      runner: "shared-runners"
+  spec:
+    dnsPolicy: "Default"
+
+    containers:
+      - name: runner
+        image: "ghcr.io/plusdefritesalacantine/my-actions-runner:latest"
+        imagePullPolicy: Always
+        command: ["/home/runner/run.sh"]
+        securityContext:
+          capabilities:
+            add:
+              - CHOWN
+              - FOWNER
+              - DAC_OVERRIDE
+        resources:
+          limits:
+            cpu: "2000m"
+            memory: "4Gi"
+            ephemeral-storage: "10Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+            ephemeral-storage: "2Gi"

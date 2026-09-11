@@ -1,0 +1,71 @@
+grafana:
+  enabled: true
+
+  adminUser: admin
+  adminPassword: Admin123! 
+
+  persistence:
+    enabled: true
+    size: 5Gi
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - grafana.local
+
+    path: /
+    pathType: Prefix
+
+  grafana.ini:
+    server:
+      domain: grafana.local
+      root_url: http://grafana.local
+
+    security:
+      allow_embedding: false
+
+    users:
+      allow_sign_up: false
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: Kubernetes
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 6417
+        revision: 1
+        datasource: Prometheus
+
+      node-exporter:
+        gnetId: 1860
+        revision: 37
+        datasource: Prometheus
+
+      kube-state-metrics:
+        gnetId: 13332
+        revision: 1
+        datasource: Prometheus
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

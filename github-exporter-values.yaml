@@ -1,0 +1,23 @@
+config:
+  token: "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"
+
+exporter:
+  orgs: "PlusDeFritesALaCantine"
+
+collector:
+  orgs: true
+  repos: false
+  workflow_runs: true
+  workflow_jobs: true
+  workflow_runs_window: 168h
+  all: true
+
+env:
+  GITHUB_EXPORTER_WORKFLOW_RUNS_WINDOW: "168h"
+  GITHUB_EXPORTER_LOG_LEVEL: "debug"
+
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  interval: 1m
+  scrapeTimeout: 10s

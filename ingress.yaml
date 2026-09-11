@@ -1,0 +1,101 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: futurekawa-ingress
+  namespace: futurekawa-app
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: app.futurekawa.local
+      http:
+        paths:
+          - path: /dashboard
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-backend
+                port:
+                  number: 8002
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-front-service
+                port:
+                  number: 80
+
+    - host: backend.futurekawa.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-backend
+                port:
+                  number: 8002
+
+    - host: api.futurekawa.local
+      http:
+        paths:
+          - path: /dashboard
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-backend
+                port:
+                  number: 8002
+          - path: /pays
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-backend
+                port:
+                  number: 8002
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: futurekawa-api-service
+                port:
+                  number: 8001
+
+    - host: mail.futurekawa.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mailpit-service
+                port:
+                  number: 8025
+
+    - host: mqtt.futurekawa.local
+      http:
+        paths:
+          - path: /mqtt
+            pathType: Prefix
+            backend:
+              service:
+                name: emqx-service
+                port:
+                  number: 8083
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: emqx-service
+                port:
+                  number: 18083
+                  
+    - host: odoo.futurekawa.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: odoo-service
+                port:
+                  number: 8069

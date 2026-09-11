@@ -1,0 +1,22 @@
+githubConfigUrl: "https://github.com/PlusDeFritesALaCantine"
+githubConfigSecret: "github-secret"
+runnerScaleSetName: "shared-runners"
+
+template:
+  metadata:
+    labels:
+      runner: "shared-runners"
+  spec:
+    dnsPolicy: "Default"
+    
+    containers:
+      - name: runner
+        image: "ghcr.io/actions/actions-runner:latest"
+        command: ["/home/runner/run.sh"]
+        resources:
+          limits:
+            cpu: "1500m"
+            memory: "4Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
